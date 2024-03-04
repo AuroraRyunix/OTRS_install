@@ -118,8 +118,8 @@ sudo perl -cw /opt/otrs/bin/cgi-bin/customer.pl
 sudo perl -cw /opt/otrs/bin/otrs.Console.pl
 ```
 (all 3 of hte above should return "syntax OK")
-open the OTRS installer ON THE MACHINE:
+open the OTRS installer ON THE MACHINE, using a browser:
 ```html5
 http://localhost/otrs/installer.pl
 ```
-
+continue from p37 onwards.
