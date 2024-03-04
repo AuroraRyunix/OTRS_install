@@ -4,7 +4,7 @@ sudo apt-get update && sudo apt-get upgrade
 ```
 install required packages:
 ```bash
-sudo apt-get install apache2 libapache2-mod-perl2 mariadb-server libdatetime-perl libcrypt-eksblowfish-perl libcrypt-ssleay-perl libgd-graph-perl libapache-dbi-perl libsoap-lite-perl libarchive-zip-perl libgd-text-perl libnet-dns-perl libpdf-api2-perl libauthen-ntlm-perl libdbd-odbc-perl libjson-xs-perl libyaml-libyaml-perl libxml-libxml-perl libencode-hanextra-perl libxml-libxslt-perl libpdf-api2-simple-perl libmail-imapclient-perl libtemplate-perl libtext-csv-xs-perl libdbd-pg-perl libapache2-mod-perl2 libtemplate-perl libnet-dns-perl libnet-ldap-perl libio-socket-ssl-perl libmoo-perl libdbd-mysql-perl -y
+sudo net-tools apt-get install apache2 libapache2-mod-perl2 mariadb-server libdatetime-perl libcrypt-eksblowfish-perl libcrypt-ssleay-perl libgd-graph-perl libapache-dbi-perl libsoap-lite-perl libarchive-zip-perl libgd-text-perl libnet-dns-perl libpdf-api2-perl libauthen-ntlm-perl libdbd-odbc-perl libjson-xs-perl libyaml-libyaml-perl libxml-libxml-perl libencode-hanextra-perl libxml-libxslt-perl libpdf-api2-simple-perl libmail-imapclient-perl libtemplate-perl libtext-csv-xs-perl libdbd-pg-perl libapache2-mod-perl2 libtemplate-perl libnet-dns-perl libnet-ldap-perl libio-socket-ssl-perl libmoo-perl libdbd-mysql-perl -y
 ```
 if using ubuntu, remove the default "open-vm-tools" and replace it with "open-vm-tools-desktop"
 ```bash
@@ -68,4 +68,57 @@ wget https://otrscommunityedition.com/download/otrs-community-edition-6.0.32.tar
 extract and move it to the final directory
 ```bash
 tar -jxvf otrs-community-edition-6.0.32.tar.bz2 && sudo mv otrs-community-edition-6.0.32 /opt/otrs
+```
+check if perl installed all the required libs
+```bash
+sudo perl /opt/otrs/bin/otrs.CheckModules.pl
+```
+create a new OTSR config file
+```bash
+sudo cp /opt/otrs/Kernel/Config.pm.dist /opt/otrs/Kernel/Config.pm
+```
+```bash
+sudo nano /opt/otrs/Kernel/Config.pm
+```
+fill in the value DatabasePw='PWD' (where PWD is your password)
+save the file using ctrl+O, ctrl+X
+edit the OTRS config script:
+```bash
+sudo nano /opt/otrs/scripts/apache2-perl-startup.pl
+```
+remove the "#' before "use DBD::mysql ();  and "use Kernel::System::DB::mysql;"
+so that:
+```bash
+#use DBD::mysql ();
+#Kernel::System::DB::mysql;
+```
+becomes:
+```bash
+use DBD::mysql ();
+Kernel::System::DB::mysql;
+```
+set the required folder permisions for the otrs directory:
+```bash
+sudo /opt/otrs/bin/otrs.SetPermissions.pl --web-group=www-data
+```
+enable apache2
+```bash
+sudo ln -s /opt/otrs/scripts/apache2-httpd.include.conf /etc/apache2/sites-enabled/otrs.conf
+```
+check if every module is correctly loaded and installed:
+```bash
+sudo perl -cw /opt/otrs/bin/cgi-bin/index.pl 
+sudo perl -cw /opt/otrs/bin/cgi-bin/customer.pl
+sudo perl -cw /opt/otrs/bin/otrs.Console.pl
+```
+finally, restart apache2
+```bash
+sudo perl -cw /opt/otrs/bin/cgi-bin/index.pl
+sudo perl -cw /opt/otrs/bin/cgi-bin/customer.pl
+sudo perl -cw /opt/otrs/bin/otrs.Console.pl
+```
+(all 3 of hte above should return "syntax OK")
+open the OTRS installer ON THE MACHINE:
+```html
+http://localhost/otrs/installer.pl
 ```
