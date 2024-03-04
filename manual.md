@@ -1,3 +1,7 @@
+preconfigued OVFs, for vmware workstation 16 and above, are available in this repo:
+[LINK](https://drive.google.com/drive/folders/1sLbEr0CBfe1cEFFms-ZOwzgwxOUsCGBT)
+
+**Manual configuration**
 1) make sure debian/ubuntu is up to date
 ```bash
 sudo apt-get update && sudo apt-get upgrade
