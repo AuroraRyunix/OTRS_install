@@ -119,6 +119,7 @@ sudo perl -cw /opt/otrs/bin/otrs.Console.pl
 ```
 (all 3 of hte above should return "syntax OK")
 open the OTRS installer ON THE MACHINE:
-```html
+```html5
 http://localhost/otrs/installer.pl
 ```
+
