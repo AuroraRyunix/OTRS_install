@@ -126,4 +126,4 @@ sudo perl -cw /opt/otrs/bin/otrs.Console.pl
 ```html5
 http://localhost/otrs/installer.pl
 ```
-23. continue from p37 onwards.
+23. continue from slide P37 onwards.
